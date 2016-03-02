@@ -47,17 +47,17 @@ $companies = [
 
 
 foreach ($companies as $key => &$value) {
-    asort($value);
+    sort($value);
 }
 
 function customSort($a, $b) {
   
-    if ($a == $b) {
+    if ($a[0] == $b[0]) {
         return 0;
-    } elseif ($a > $b) {
-        return -1;
-    } else {
+    } elseif ($a[0] > $b[0]) {
         return 1;
+    } else {
+        return -1;
     }
 }
 
