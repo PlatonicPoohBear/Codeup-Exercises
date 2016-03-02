@@ -46,9 +46,8 @@ $companies = [
 ];
 
 
-foreach ($companies as $key => $value) {
+foreach ($companies as $key => &$value) {
     asort($value);
-    $companies[$key] = $value;
 }
 
 function customSort($a, $b) {
