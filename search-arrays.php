@@ -16,6 +16,25 @@ function search_arrays($needle, $haystack) {
 }
 
 
-echo search_arrays('Tina', $names) . PHP_EOL; 
+function compareArrays($firstArray, $secondArray) {
 
-echo search_arrays('Bob', $names) . PHP_EOL; 
+	$counter = 0;
+
+	foreach ($firstArray as $key => $value) {
+		$result = array_search($value, $secondArray);
+
+		if ($result !== false) {
+			$counter++;
+		}
+	}
+
+	return $counter;
+}
+
+
+// echo search_arrays('Tina', $names) . PHP_EOL; 
+
+// echo search_arrays('Bob', $names) . PHP_EOL; 
+
+
+var_dump(compareArrays($names, $compare));
