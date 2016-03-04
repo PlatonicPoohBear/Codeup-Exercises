@@ -10,10 +10,14 @@
 	    $newArray = [];
 
 	    foreach ($dataArray as $key => $value) {
+	    	
 	    	$temp = [];
-	    	$temp = explode(',', $value);
-	    	$temp = organize($temp);
-	    	array_push($newArray, $temp);
+	    	
+	    	if ($value != '') {
+	    		$temp = explode(',', $value);
+		    	$temp = organize($temp);
+		    	array_push($newArray, $temp);
+		    }
 
 	    }
 
