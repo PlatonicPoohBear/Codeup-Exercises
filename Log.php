@@ -13,7 +13,7 @@ class Log
     	$this->handle = fopen($this->filename, 'a');
     }
 
-    public function logMessage($logLevel, $message)
+    private function logMessage($logLevel, $message)
 	{
 	    date_default_timezone_set('America/Chicago');
 
@@ -36,7 +36,6 @@ class Log
 	public function __destruct()
 	{
 		fclose($this->handle);
-		echo "destruct" . PHP_EOL;
 	}
     
 }
