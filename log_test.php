@@ -3,7 +3,7 @@
 
 require_once 'Log.php';
 
-$test = new Log();
+$test = new Log('cli');
 
 $test->log_info();
 

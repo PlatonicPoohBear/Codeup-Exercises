@@ -2,13 +2,13 @@
 
 class Log
 {
-    public $filename;
-    public $handle;
+    private $filename;
+    private $handle;
     
     
-    public function __construct()
+    public function __construct($prefix = 'log')
     {
-    	$this->filename = "Log/log-" . date('y-m-d') . ".log";
+    	$this->filename = "Log/" . $prefix . date('-y-m-d') . ".log";
 
     	$this->handle = fopen($this->filename, 'a');
     }
@@ -36,6 +36,7 @@ class Log
 	public function __destruct()
 	{
 		fclose($this->handle);
+		echo "destruct" . PHP_EOL;
 	}
     
 }
