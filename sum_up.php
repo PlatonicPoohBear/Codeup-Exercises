@@ -5,9 +5,16 @@ function sum($input) {
 	if (count($input) == 0) {
 		return 0;
 	} else {
-		$temp = array_pop($input);
-		$temp = (int) $temp;
-		return $temp + sum($input);
+		$temp = array_shift($input);
+		
+		if ($temp == '.') {
+			// check the next index (to round)
+			// return either a 1 or a 0
+		} else {
+			$temp = (int) $temp;
+			return $temp + sum($input);	
+		}
+		
 	}
 }
 
@@ -30,9 +37,11 @@ function validate($input) {
 		// $input = round($input);
 		// $input = rtrim(sprintf('%100f', $input), '0');
 		// $input = strval($input);
-		// $input = str_split($input);
+		$input = str_split($input);
 		
 		// return sum($input);
+
+		return $input;
 
 	} else {
 		return receive();
