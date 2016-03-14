@@ -7,13 +7,21 @@ function sum($input) {
 	} else {
 		$temp = array_shift($input);
 		
-		if ($temp == '.') {
-			// check the next index (to round)
-			// return either a 1 or a 0
+		if ($temp == ".") {
+				// check the next index (to round)
+			$decimal = $input[0];
+				// return either a 1 or a 0
+			if (intval($decimal) > 4) {
+				return 1;
+			} else {
+				return 0;
+			}
+			
 		} else {
 			$temp = (int) $temp;
 			return $temp + sum($input);	
 		}
+		
 		
 	}
 }
@@ -39,9 +47,9 @@ function validate($input) {
 		// $input = strval($input);
 		$input = str_split($input);
 		
-		// return sum($input);
+		return sum($input);
 
-		return $input;
+		// return $input;
 
 	} else {
 		return receive();
