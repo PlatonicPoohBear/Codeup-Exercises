@@ -19,31 +19,24 @@ function master() {
 		// Set array of special characters (if within limit of length variable)
 	
 	var_dump(getSpecial());
-		
 
-
-	// fwrite(STDOUT, 'How many digits will your password contain? ');
-
-	// $digitInput = trim(fgets(STDIN));
 
 
 		// Set array of digits (if within limit of length variable)
-
+	var_dump(getDigit());
 	
-	fwrite(STDOUT, 'Your password will contain letters. Would you like upper case letters as well? Yes or no. ');
-
-	$includeUpperCaseInput = trim(fgets(STDIN));
-
+	
 
 		// If "Yes", go to the next question. Else, set array of lower case letters (if any space remains)
+	$includeUpperCaseInput = getIncludeUpperCase();
 
-	
-	fwrite(STDOUT, 'Would you like exclusively upper case letters? Yes or no. ');
-
-	$exclusiveUpperCaseInput = trim(fgets(STDIN));
-
-
-		// If "Yes", set array of upper case letters. Else, set array of lower and upper case letters.
+	if ($includeUpperCaseInput == true) {
+		var_dump($includeUpperCaseInput);
+		var_dump(getExclusiveUpperCase());
+	} else {
+		var_dump($includeUpperCaseInput);
+	}
+	// If "Yes", set array of upper case letters. Else, set array of lower and upper case letters.
 
 
 
@@ -65,7 +58,7 @@ function getSpecial() {
 	if (is_numeric($specialInput)) {
 		return $specialInput;
 	} else {
-		getSpecial();
+		return getSpecial();
 	}
 }
 
@@ -79,14 +72,39 @@ function getDigit() {
 	if (is_numeric($digitInput)) {
 		return $digitInput;
 	} else {
-		getDigit();
+		return getDigit();
 	}
 }
 
 
 function getIncludeUpperCase() {
 
-	
+	fwrite(STDOUT, 'Your password will contain letters. Would you like upper case letters as well? Yes or no. ');
+
+	$includeUpperCaseInput = trim(fgets(STDIN));
+
+	if ($includeUpperCaseInput == 'Yes' || $includeUpperCaseInput == 'yes' || $includeUpperCaseInput == 'YES') {
+		return true;
+	} elseif ($includeUpperCaseInput == 'No' || $includeUpperCaseInput == 'no' || $includeUpperCaseInput == 'NO') {
+		return false;
+	} else {
+		return getIncludeUpperCase();
+	}
+}
+
+function getExclusiveUpperCase() {
+
+	fwrite(STDOUT, 'Would you like exclusively upper case letters? Yes or no. ');
+
+	$exclusiveUpperCaseInput = trim(fgets(STDIN));
+
+	if ($exclusiveUpperCaseInput == 'Yes' || $exclusiveUpperCaseInput == 'yes' || $exclusiveUpperCaseInput == 'YES') {
+		return true;
+	} elseif ($exclusiveUpperCaseInput == 'No' || $exclusiveUpperCaseInput == 'no' || $exclusiveUpperCaseInput == 'NO') {
+		return false;
+	} else {
+		return getExclusiveUpperCase();
+	}
 }
 
 master();
