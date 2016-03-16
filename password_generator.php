@@ -9,23 +9,22 @@ function master() {
 
 	fwrite(STDOUT, 'How long will your password be? ');
 
-	$lengthInput = fgets(STDIN);
+	$lengthInput = trim(fgets(STDIN));
 
 		// Set length variable
+	$length = $lengthInput;
 
-
-
-	fwrite(STDOUT, 'How many special characters will your password contain? ');
-
-	$specialInput = fgets(STDIN);
 
 
 		// Set array of special characters (if within limit of length variable)
+	
+	var_dump(getSpecial());
+		
 
 
-	fwrite(STDOUT, 'How many digits will your password contain? ');
+	// fwrite(STDOUT, 'How many digits will your password contain? ');
 
-	$digitInput = fgets(STDIN);
+	// $digitInput = trim(fgets(STDIN));
 
 
 		// Set array of digits (if within limit of length variable)
@@ -33,7 +32,7 @@ function master() {
 	
 	fwrite(STDOUT, 'Your password will contain letters. Would you like upper case letters as well? Yes or no. ');
 
-	$includeUpperCaseInput = fgets(STDIN);
+	$includeUpperCaseInput = trim(fgets(STDIN));
 
 
 		// If "Yes", go to the next question. Else, set array of lower case letters (if any space remains)
@@ -41,7 +40,7 @@ function master() {
 	
 	fwrite(STDOUT, 'Would you like exclusively upper case letters? Yes or no. ');
 
-	$exclusiveUpperCaseInput = fgets(STDIN);
+	$exclusiveUpperCaseInput = trim(fgets(STDIN));
 
 
 		// If "Yes", set array of upper case letters. Else, set array of lower and upper case letters.
@@ -55,6 +54,42 @@ function master() {
 
 
 }
+
+
+function getSpecial() {
+
+	fwrite(STDOUT, 'How many special characters will your password contain? ');
+
+	$specialInput = trim(fgets(STDIN));
+
+	if (is_numeric($specialInput)) {
+		return $specialInput;
+	} else {
+		getSpecial();
+	}
+}
+
+
+function getDigit() {
+
+	fwrite(STDOUT, 'How many digits will your password contain? ');
+
+	$digitInput = trim(fgets(STDIN));
+
+	if (is_numeric($digitInput)) {
+		return $digitInput;
+	} else {
+		getDigit();
+	}
+}
+
+
+function getIncludeUpperCase() {
+
+	
+}
+
+master();
 
 
  	
