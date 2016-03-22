@@ -2,99 +2,124 @@
 
 
 
-	// Don't build one array based on user input, but build one for each set of characters per user instructions,
-	// then randomly combine them.
-
 function master() {
 
-	fwrite(STDOUT, 'How long will your password be? ');
 
-	$lengthInput = trim(fgets(STDIN));
-
-		// Set length variable
-	$masterLength = floor(intval($lengthInput));
+	$masterLength = getMasterLength();
 
 
+// ----------------------------------------------------------------------------------------------------------------------
 
-		// Set array of special characters (if within limit of length variable)
 	
-	$specialLength = getSpecial($masterLength);
-	
-	$specialArray = createSpecial($specialLength);
-	
-	$masterLength -= $specialLength;
-
-	var_dump($specialArray);
-	var_dump($masterLength);
-	
-
-
-
-		// Set array of digits (if within limit of length variable)
-	$digitLength = getDigit($masterLength);
-	
-	$digitArray = createDigit($digitLength);
-
-	$masterLength -= $digitLength;
-
-	var_dump($digitArray);
-	var_dump($masterLength);
-	
-	
-
-		// If "Yes", go to the next question. Else, set array of lower case letters (if any space remains)
-	$includeUpperCaseInput = getIncludeUpperCase();
-
-	if ($includeUpperCaseInput == true) {
-		var_dump($includeUpperCaseInput);
-		var_dump(getExclusiveUpperCase());
+	if ($masterLength > 0) {
+		
+		$specialLength = getSpecial($masterLength);
+		
+		$specialArray = createSpecial($specialLength);
+		
+		$masterLength -= $specialLength;
 	} else {
-		var_dump($includeUpperCaseInput);
+		$specialArray = [];
 	}
-	// If "Yes", set array of upper case letters. Else, set array of lower and upper case letters.
 
 
+// ----------------------------------------------------------------------------------------------------------------------
+
+		
+	if ($masterLength > 0) {
+	
+		$digitLength = getDigit($masterLength);
+		
+		$digitArray = createDigit($digitLength);
+
+		$masterLength -= $digitLength;
+	} else {
+		$digitArray = [];
+	}
 
 
+// ----------------------------------------------------------------------------------------------------------------------
 
-	// Merge all of the arrays randomly to produce password.
+	
+	if ($masterLength > 0) {
+			
+		$includeUpperCaseInput = getIncludeUpperCase();
+
+		if ($includeUpperCaseInput == true) {
+			
+			$exclusiveUpperCaseInput = getExclusiveUpperCase();
+
+			if ($exclusiveUpperCaseInput == true) {
+				$upperCaseArray = createUpperCase($masterLength);
+				
+				return mergeArrays($specialArray, $digitArray, $upperCaseArray);
+			} else {
+				$lowerUpperCaseArray = createLowerUpperCase($masterLength);
+				
+				return mergeArrays($specialArray, $digitArray, $lowerUpperCaseArray);
+			}
+
+		} else {
+			$lowerCaseArray = createLowerCase($masterLength);
+			
+			return mergeArrays($specialArray, $digitArray, $lowerCaseArray);
+		}
+		
+	} else {
+		return mergeArrays($specialArray, $digitArray);
+	}
 
 
 
 }
+
+
+function getMasterLength() {
+
+	fwrite(STDOUT, PHP_EOL . 'How long will your password be? ');
+
+	$lengthInput = trim(fgets(STDIN));
+
+	if (is_numeric($lengthInput)) {
+		return floor(intval($lengthInput));
+	} else {
+		return getMasterLength();
+	}
+}
+
 
 
 function getSpecial($masterLength) {
 
-	fwrite(STDOUT, 'How many special characters will your password contain? ');
+	fwrite(STDOUT, PHP_EOL . 'How many special characters will your password contain? ');
 
 	$specialInput = trim(fgets(STDIN));
 
-	if (is_numeric($specialInput) && floor(intval($specialInput) < $masterLength) {
+	if (is_numeric($specialInput) && floor(intval($specialInput) <= $masterLength)) {
 		return floor(intval($specialInput));
 	} else {
-		return getSpecial();
+		return getSpecial($masterLength);
 	}
 }
 
 
-function getDigit() {
+function getDigit($masterLength) {
 
-	fwrite(STDOUT, 'How many digits will your password contain? ');
+	fwrite(STDOUT, PHP_EOL . 'How many digits will your password contain? ');
 
 	$digitInput = trim(fgets(STDIN));
 
-	if (is_numeric($digitInput) && floor(intval($digitInput) < $masterLength) {
+	if (is_numeric($digitInput) && floor(intval($digitInput) <= $masterLength)) {
 		return floor(intval($digitInput));
 	} else {
-		return getDigit();
+		return getDigit($masterLength);
 	}
 }
 
 
 function getIncludeUpperCase() {
 
-	fwrite(STDOUT, 'Your password will contain letters. Would you like upper case letters as well? Yes or no. ');
+	fwrite(STDOUT, PHP_EOL . 'Your password will contain letters. Would you like upper case letters as well? Yes or no. ');
 
 	$includeUpperCaseInput = trim(fgets(STDIN));
 
@@ -109,7 +134,7 @@ function getIncludeUpperCase() {
 
 function getExclusiveUpperCase() {
 
-	fwrite(STDOUT, 'Would you like exclusively upper case letters? Yes or no. ');
+	fwrite(STDOUT, PHP_EOL . 'Would you like exclusively upper case letters? Yes or no. ');
 
 	$exclusiveUpperCaseInput = trim(fgets(STDIN));
 
@@ -148,7 +173,58 @@ function createDigit($digitLength) {
 	return $digitArray;
 }
 
-master();
+
+function createUpperCase($masterLength) {
+	$upperCaseSet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+	$upperCaseArray = [];
+
+	for ($i = $masterLength; $i > 0; $i--) {
+		$upperCaseArray[] = $upperCaseSet[mt_rand(0, count($upperCaseSet) - 1)];
+	}
+
+	return $upperCaseArray;
+}
+
+
+function createLowerUpperCase($masterLength) {
+	$lowerUpperCaseSet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+	$lowerUpperCaseArray = [];
+
+	for ($i = $masterLength; $i > 0; $i--) {
+		$lowerUpperCaseArray[] = $lowerUpperCaseSet[mt_rand(0, count($lowerUpperCaseSet) - 1)];
+	}
+
+	return $lowerUpperCaseArray;
+}
+
+
+function createLowerCase($masterLength) {
+	$lowerCaseSet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+	$lowerCaseArray = [];
+
+	for ($i = $masterLength; $i > 0; $i--) {
+		$lowerCaseArray[] = $lowerCaseSet[mt_rand(0, count($lowerCaseSet) - 1)];
+	}
+
+	return $lowerCaseArray;
+}
+
+
+function mergeArrays($specialArray, $digitArray, $letterArray = []) {
+	$passwordArray = array_merge($specialArray, $digitArray, $letterArray);
+	
+	shuffle($passwordArray);
+	shuffle($passwordArray);
+	shuffle($passwordArray);
+
+	$password = implode($passwordArray);
+
+	return $password;
+
+}
+
+
+echo PHP_EOL . 'Your password is: ' . master() . PHP_EOL;
 
 
  	
