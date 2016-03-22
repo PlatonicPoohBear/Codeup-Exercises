@@ -12,18 +12,33 @@ function master() {
 	$lengthInput = trim(fgets(STDIN));
 
 		// Set length variable
-	$length = $lengthInput;
+	$masterLength = floor(intval($lengthInput));
 
 
 
 		// Set array of special characters (if within limit of length variable)
 	
-	var_dump(getSpecial());
+	$specialLength = getSpecial($masterLength);
+	
+	$specialArray = createSpecial($specialLength);
+	
+	$masterLength -= $specialLength;
+
+	var_dump($specialArray);
+	var_dump($masterLength);
+	
 
 
 
 		// Set array of digits (if within limit of length variable)
-	var_dump(getDigit());
+	$digitLength = getDigit($masterLength);
+	
+	$digitArray = createDigit($digitLength);
+
+	$masterLength -= $digitLength;
+
+	var_dump($digitArray);
+	var_dump($masterLength);
 	
 	
 
@@ -49,14 +64,14 @@ function master() {
 }
 
 
-function getSpecial() {
+function getSpecial($masterLength) {
 
 	fwrite(STDOUT, 'How many special characters will your password contain? ');
 
 	$specialInput = trim(fgets(STDIN));
 
-	if (is_numeric($specialInput)) {
-		return $specialInput;
+	if (is_numeric($specialInput) && floor(intval($specialInput) < $masterLength) {
+		return floor(intval($specialInput));
 	} else {
 		return getSpecial();
 	}
@@ -69,8 +84,8 @@ function getDigit() {
 
 	$digitInput = trim(fgets(STDIN));
 
-	if (is_numeric($digitInput)) {
-		return $digitInput;
+	if (is_numeric($digitInput) && floor(intval($digitInput) < $masterLength) {
+		return floor(intval($digitInput));
 	} else {
 		return getDigit();
 	}
@@ -105,6 +120,32 @@ function getExclusiveUpperCase() {
 	} else {
 		return getExclusiveUpperCase();
 	}
+}
+
+
+function createSpecial($specialLength) {
+
+	$characterSet = ['!', '@', '#', '$', '%', '^', '&', '*', '-', '_', '=', '+', '`', '~', '<', ',', '>', '.', '?', '/', ';', ':', '|', '\\'];
+	$specialArray = [];
+
+	for ($i = $specialLength; $i > 0; $i--) {
+		$specialArray[] = $characterSet[mt_rand(0, count($characterSet) - 1)];
+	}
+
+	return $specialArray;
+}
+
+
+function createDigit($digitLength) {
+
+	$digitSet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+	$digitArray = [];
+
+	for ($i = $digitLength; $i > 0; $i--) {
+		$digitArray[] = $digitSet[mt_rand(0, count($digitSet) - 1)];
+	}
+
+	return $digitArray;
 }
 
 master();
