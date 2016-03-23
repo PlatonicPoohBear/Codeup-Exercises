@@ -8,11 +8,11 @@ class Square extends Rectangle
 	}
 
 	public function perimeter() {
-		return ($this->height * 4);
+		return parent::perimeter();
 	}
 
 	public function area() {
-		return ($this->height) * ($this->height);
+		return parent::area();
 	}
 } 
 
