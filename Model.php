@@ -4,6 +4,7 @@ class Model
 {
 	
 	private $attributes = [];
+	protected static $table;
 
 	
 	
@@ -18,6 +19,11 @@ class Model
 		if (array_key_exists($name, $this->attributes)) {
 			return $this->attributes[$name];
 		}
+	}
+
+
+	public static function getTableName() {
+		return static::$table;
 	}
 
 
